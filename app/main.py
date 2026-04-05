@@ -3,8 +3,18 @@ from app.models import AuditRequest, AuditResponse
 from app.scraper import scrape_page
 from app.schema_generator import generate_schema
 from app.utils import calculate_score
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Mini GEO Audit API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.post("/audit", response_model=AuditResponse)
 def audit(request: AuditRequest):
